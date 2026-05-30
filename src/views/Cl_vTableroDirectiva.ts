@@ -71,7 +71,7 @@ export default class Cl_vTableroDirectiva implements I_vTableroDirectiva {
       this.cardGanador.innerHTML = `
         <div class="alert alert-warning border-warning shadow-sm text-center mb-0" role="alert">
           <h4 class="alert-heading fw-bold">⚠️ Concurso Declarado Desierto</h4>
-          <p class="mb-0 small text-dark">Ningún participante logró superar las notas mínimas de corte institucionales (Conocimiento $\\ge$ 15 pts y Nota Definitiva $\\ge$ 16 pts).</p>
+          <p class="mb-0 small text-dark">Ningún participante logró superar las notas mínimas de corte institucionales (Conocimiento 15 pts y Nota Definitiva 16 pts).</p>
         </div>
       `;
       return;
