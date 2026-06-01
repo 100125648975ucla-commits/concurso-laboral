@@ -18,7 +18,7 @@ export default class Cl_vTableroDirectiva {
         this.btVolver.onclick = () => callback();
     }
     /**
-     * Renderiza el reporte tratando cada columna en su escala base y calculando la ponderación global
+     * Renderiza las filas consumiendo los valores calculados directamente por el modelo bajo MVC puro
      */
     mostrarResultados(aspirantes) {
         this.tblRegistros.innerHTML = "";
@@ -29,63 +29,42 @@ export default class Cl_vTableroDirectiva {
             return;
         }
         aspirantes.forEach((aspirante) => {
-            const veredictoBase = aspirante.obtenerVeredicto();
-            // ========================================================
-            // 1. ESCALAS VISIBLES EN LAS COLUMNAS PARCIALES (BRUTAS)
-            // ========================================================
-            // Columna Credenciales: Los 100 puntos del baremo de RRHH
-            const notaCredencialesSobre100 = aspirante.totalForm6Sobre100();
-            // Columna Conocimientos: Suma directa de Examen Escrito + Práctico (Máximo 40 pts)
-            const notaConocimientosSobre40 = aspirante.calificacionForm8();
-            // Columna Aptitudes: Puntos base de exposición de los 3 jurados (Máximo 180 pts)
-            const notaAptitudesSobre180 = aspirante.totalPuntosExposicion();
-            // ========================================================
-            // 2. CÁLCULO DE PESOS PORCENTUALES REALES (PARA EL 100%)
-            // ========================================================
-            // El currículum se reduce a una escala sobre 10 para aportar al 10% (Máx 10 pts)
-            const pesoCredenciales10 = notaCredencialesSobre100 / 10;
-            // Calculamos el peso de los exámenes sobre los 40 puntos para llevarlos al 60% (Máx 60 pts)
-            const pesoConocimientos60 = (notaConocimientosSobre40 / 40) * 60;
-            // Calculamos el peso de la exposición sobre los 180 puntos para llevarlos al 30% (Máx 30 pts)
-            const pesoAptitudes30 = (notaAptitudesSobre180 / 180) * 30;
-            // NOTA DEFINITIVA (100%): Suma directa y limpia de los tres pesos parciales (Tope máximo de 100 pts exactos)
-            const notaDefinitiva100 = pesoCredenciales10 + pesoConocimientos60 + pesoAptitudes30;
-            // VEREDICTO FINAL: Convertimos linealmente esos 100 puntos máximos a la escala de 20 puntos
-            const notaEscala20 = (notaDefinitiva100 / 100) * 20;
-            // ========================================================
-            // 3. CONFIGURACIÓN VISUAL DEL VEREDICTO CON SU NOTA ASOCIADA
-            // ========================================================
+            // Consumo directo de firmas oficiales del UML sin operaciones aritméticas secundarias
+            const veredicto = aspirante.obtenerVeredicto();
+            const nota100 = aspirante.notaDefinitiva();
+            const nota20 = (nota100 / 100) * 20;
+            const rrhh = aspirante.totalForm6Sobre100();
+            const examenes = aspirante.calificacionForm8();
+            const jurado = aspirante.totalPuntosExposicion();
             let veredictoFinalHTML = "";
             let claseColor = "";
-            if (veredictoBase === "Aprobado") {
+            if (veredicto === "Aprobado") {
                 claseColor = "text-success fw-bold";
-                veredictoFinalHTML = `Aprobado (${notaEscala20.toFixed(2)} / 20 pts)`;
+                veredictoFinalHTML = `Aprobado (${nota20.toFixed(2)} / 20 pts)`;
             }
-            else if (veredictoBase === "Improbado por Nota Mínima") {
+            else if (veredicto === "Improbado por Nota Mínima") {
                 claseColor = "text-danger fw-bold";
-                veredictoFinalHTML = `Improbado por Nota Mínima (${notaEscala20.toFixed(2)} / 20 pts)`;
+                veredictoFinalHTML = `Improbado por Nota Mínima (${nota20.toFixed(2)} / 20 pts)`;
             }
             else {
-                // Captura el caso de "Improbado en Conocimiento" (Filtro de la nota menor a 15 en examen)
                 claseColor = "text-danger text-opacity-75 small fw-bold";
-                veredictoFinalHTML = veredictoBase;
+                veredictoFinalHTML = veredicto;
             }
-            // Inyectamos la fila con los formatos de límites dinámicos aplicados
             this.tblRegistros.innerHTML += `
         <tr>
           <td class="fw-semibold">${aspirante.cedula}</td>
           <td class="text-start">${aspirante.nombre}</td>
-          <td>${notaCredencialesSobre100.toFixed(2)} / 100 pts</td>
-          <td>${notaConocimientosSobre40.toFixed(2)} / 40 pts</td>
-          <td>${notaAptitudesSobre180.toFixed(2)} / 180 pts</td>
-          <td class="text-primary fw-bold">${notaDefinitiva100.toFixed(2)} pts</td>
+          <td>${rrhh.toFixed(2)} / 100 pts</td>
+          <td>${examenes.toFixed(2)} / 40 pts</td>
+          <td>${jurado.toFixed(2)} / 180 pts</td>
+          <td class="text-primary fw-bold">${nota100.toFixed(2)} pts</td>
           <td class="${claseColor}">${veredictoFinalHTML}</td>
         </tr>
       `;
         });
     }
     /**
-     * Renderiza los datos de la persona ganadora de forma limpia y minimalista
+     * Renderiza el banner del ganador aplicando la estética plana de la barra verde izquierda
      */
     mostrarGanador(ganador) {
         if (ganador === null) {
@@ -97,7 +76,6 @@ export default class Cl_vTableroDirectiva {
       `;
             return;
         }
-        // Caja minimalista plana adaptada al CSS nativo sin Bootstrap pesado
         this.cardGanador.innerHTML = `
       <div style="padding: 15px; background-color: #f8f9fa; border-left: 5px solid #198754; border-top: 1px solid #dee2e6; border-right: 1px solid #dee2e6; border-bottom: 1px solid #dee2e6; border-radius: 4px; margin-bottom: 25px; text-align: left;">
         <span style="color: #198754; font-size: 0.85em; font-weight: bold; text-transform: uppercase; letter-spacing: 0.5px; display: block; margin-bottom: 5px;">

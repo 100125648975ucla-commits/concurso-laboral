@@ -1,20 +1,16 @@
 export default class Cl_mAspirante {
-    // Identificador interno para el recurso en MockAPI
     tabla = "aspirantes";
     _cedula = 0;
     _nombre = "";
-    // Arreglos privados de Credenciales (Datos del Currículum)
-    _puntajesForm5 = [0, 0, 0, 0]; // Postgrado (4 aspectos)
-    _puntajesForm51 = [0, 0, 0, 0, 0, 0, 0]; // Pregrado (7 aspectos)
-    _puntajesForm52 = [0, 0, 0, 0, 0, 0, 0, 0, 0]; // Prod. Científica (9 aspectos)
-    _puntajesForm53 = [0, 0, 0, 0, 0, 0, 0, 0]; // Experiencia (8 aspectos)
-    // Bloque de Conocimientos (Exámenes)
+    _puntajesForm5 = [0, 0, 0, 0];
+    _puntajesForm51 = [0, 0, 0, 0, 0, 0, 0];
+    _puntajesForm52 = [0, 0, 0, 0, 0, 0, 0, 0, 0];
+    _puntajesForm53 = [0, 0, 0, 0, 0, 0, 0, 0];
     _notaExamenEscrito = 0;
     _notaExamenPractico = 0;
-    // Arreglos de Aptitudes (Evaluación de los 3 Jurados)
-    _evaluacionAspectosJuradoA = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]; // 12 aspectos
-    _evaluacionAspectosJuradoB = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]; // 12 aspectos
-    _evaluacionAspectosJuradoC = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]; // 12 aspectos
+    _evaluacionAspectosJuradoA = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
+    _evaluacionAspectosJuradoB = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
+    _evaluacionAspectosJuradoC = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
     constructor({ cedula, nombre, puntajesForm5 = [0, 0, 0, 0], puntajesForm51 = [0, 0, 0, 0, 0, 0, 0], puntajesForm52 = [0, 0, 0, 0, 0, 0, 0, 0, 0], puntajesForm53 = [0, 0, 0, 0, 0, 0, 0, 0], notaExamenEscrito = 0, notaExamenPractico = 0, evaluacionAspectosJuradoA = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], evaluacionAspectosJuradoB = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], evaluacionAspectosJuradoC = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], }) {
         this.cedula = cedula;
         this.nombre = nombre;
@@ -50,21 +46,24 @@ export default class Cl_mAspirante {
     set evaluacionAspectosJuradoB(v) { this._evaluacionAspectosJuradoB = v; }
     get evaluacionAspectosJuradoC() { return this._evaluacionAspectosJuradoC; }
     set evaluacionAspectosJuradoC(v) { this._evaluacionAspectosJuradoC = v; }
+    // ========================================================
+    // IMPLEMENTACIÓN DE MÉTODOS DEL DIAGRAMA UML
+    // ========================================================
     puntosForm5() {
-        const suma = this.puntajesForm5.reduce((acc, nota) => acc + nota, 0);
-        return suma > 35 ? 35 : suma;
+        const bold = this.puntajesForm5.reduce((acc, nota) => acc + nota, 0);
+        return bold > 35 ? 35 : bold;
     }
     puntosForm51() {
-        const suma = this.puntajesForm51.reduce((acc, nota) => acc + nota, 0);
-        return suma > 30 ? 30 : suma;
+        const bold = this.puntajesForm51.reduce((acc, nota) => acc + nota, 0);
+        return bold > 30 ? 30 : bold;
     }
     puntosForm52() {
-        const suma = this.puntajesForm52.reduce((acc, nota) => acc + nota, 0);
-        return suma > 15 ? 15 : suma;
+        const bold = this.puntajesForm52.reduce((acc, nota) => acc + nota, 0);
+        return bold > 15 ? 15 : bold;
     }
     puntosForm53() {
-        const suma = this.puntajesForm53.reduce((acc, nota) => acc + nota, 0);
-        return suma > 20 ? 20 : suma;
+        const bold = this.puntajesForm53.reduce((acc, nota) => acc + nota, 0);
+        return bold > 20 ? 20 : bold;
     }
     totalForm6Sobre100() {
         return this.puntosForm5() + this.puntosForm51() + this.puntosForm52() + this.puntosForm53();
@@ -72,17 +71,21 @@ export default class Cl_mAspirante {
     calificacionFinalForm6() {
         return this.totalForm6Sobre100() / 5;
     }
+    /**
+     * Ponderación de Credenciales (10%): Aporta un rango de 0 a 10 puntos reales directos
+     */
     calificacion10PorcForm7() {
-        return this.calificacionFinalForm6() * 0.10;
+        return this.totalForm6Sobre100() * 0.10;
     }
-    // Métodos de cálculo: Conocimientos (Form 8)
     calificacionForm8() {
         return this.notaExamenEscrito + this.notaExamenPractico;
     }
+    /**
+     * Ponderación de Conocimientos (60%): Aporta un rango de 0 a 60 puntos reales directos
+     */
     calificacion60PorcForm8() {
-        return this.calificacionForm8() * 0.60;
+        return (this.calificacionForm8() / 40) * 60;
     }
-    // Métodos de cálculo: Aptitudes / Exposición (Form 9 y 10)
     totalPuntosExposicion() {
         const sumA = this.evaluacionAspectosJuradoA.reduce((acc, val) => acc + val, 0);
         const sumB = this.evaluacionAspectosJuradoB.reduce((acc, val) => acc + val, 0);
@@ -92,23 +95,33 @@ export default class Cl_mAspirante {
     calificacionForm9() {
         return this.totalPuntosExposicion() / 9;
     }
+    /**
+     * Ponderación de Aptitudes (30%): Aporta un rango de 0 a 30 puntos reales directos
+     */
     calificacion30PorcForm9() {
-        return this.calificacionForm9() * 0.30;
+        return (this.totalPuntosExposicion() / 180) * 30;
     }
-    // Nota Definitiva y Veredicto (Filtros de corte de 15 y 16 puntos)
+    /**
+     * NOTA DEFINITIVA (100%): Suma directa de las ponderaciones limpias (Rango exacto de 0 a 100 pts)
+     */
     notaDefinitiva() {
         return this.calificacion10PorcForm7() + this.calificacion60PorcForm8() + this.calificacion30PorcForm9();
     }
+    /**
+     * Dictamina las decisiones de corte institucionales
+     */
     obtenerVeredicto() {
+        // Filtro Técnico: Exclusivo de Conocimientos (Menos de 15 pts brutos en exámenes de 40)
         if (this.calificacionForm8() < 15) {
             return "Improbado en Conocimiento";
         }
-        if (this.notaDefinitiva() < 16) {
-            return "Improbado por nota minima ";
+        // Filtro Global: La nota definitiva sobre 100 reducida a la escala de 20 debe ser menor a 16
+        const notaEscala20 = (this.notaDefinitiva() / 100) * 20;
+        if (notaEscala20 < 16) {
+            return "Improbado por Nota Mínima";
         }
         return "Aprobado";
     }
-    // Conversión a objeto plano para procesar en los servicios de red
     toJSON() {
         return {
             tabla: this.tabla,
