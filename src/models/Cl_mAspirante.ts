@@ -94,7 +94,7 @@ export default class Cl_mAspirante {
   
   public puntosForm5(): number {
     const suma = this.puntajesForm5.reduce((acc, nota) => acc + nota, 0);
-    return suma > 35 ? 35 : suma; // Aplica el tope de la tabla
+    return suma > 35 ? 35 : suma; 
   }
 
   public puntosForm51(): number {
@@ -156,10 +156,10 @@ export default class Cl_mAspirante {
 
   public obtenerVeredicto(): string {
     if (this.calificacionForm8() < 15) {
-      return "Improbado al no alcanzar la nota minima exigida de 15 puntos en la Prueba de Conocimiento";
+      return "Improbado en Conocimiento";
     }
     if (this.notaDefinitiva() < 16) {
-      return "Improbado por no alcanzar la nota minima aprobatoria de 16 puntos en las pruebas";
+      return "Improbado por nota minima ";
     }
     return "Aprobado";
   }

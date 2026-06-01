@@ -48,12 +48,12 @@ export default class Cl_vTableroDirectiva {
             const pesoConocimientos60 = (notaConocimientosSobre40 / 40) * 60;
             // Calculamos el peso de la exposición sobre los 180 puntos para llevarlos al 30% (Máx 30 pts)
             const pesoAptitudes30 = (notaAptitudesSobre180 / 180) * 30;
-            // NOTA DEFINITIVA (100%): Suma directa y exacta de los tres pesos parciales (Máximo 100 pts)
+            // NOTA DEFINITIVA (100%): Suma directa y limpia de los tres pesos parciales (Tope máximo de 100 pts exactos)
             const notaDefinitiva100 = pesoCredenciales10 + pesoConocimientos60 + pesoAptitudes30;
             // VEREDICTO FINAL: Convertimos linealmente esos 100 puntos máximos a la escala de 20 puntos
             const notaEscala20 = (notaDefinitiva100 / 100) * 20;
             // ========================================================
-            // 3. CONFIGURACIÓN VISUAL DEL VEREDICTO
+            // 3. CONFIGURACIÓN VISUAL DEL VEREDICTO CON SU NOTA ASOCIADA
             // ========================================================
             let veredictoFinalHTML = "";
             let claseColor = "";
@@ -61,11 +61,16 @@ export default class Cl_vTableroDirectiva {
                 claseColor = "text-success fw-bold";
                 veredictoFinalHTML = `Aprobado (${notaEscala20.toFixed(2)} / 20 pts)`;
             }
+            else if (veredictoBase === "Improbado por Nota Mínima") {
+                claseColor = "text-danger fw-bold";
+                veredictoFinalHTML = `Improbado por Nota Mínima (${notaEscala20.toFixed(2)} / 20 pts)`;
+            }
             else {
-                claseColor = "text-danger text-opacity-75 small";
+                // Captura el caso de "Improbado en Conocimiento" (Filtro de la nota menor a 15 en examen)
+                claseColor = "text-danger text-opacity-75 small fw-bold";
                 veredictoFinalHTML = veredictoBase;
             }
-            // Inyectamos las filas respetando la homogeneidad de los formatos
+            // Inyectamos la fila con los formatos de límites dinámicos aplicados
             this.tblRegistros.innerHTML += `
         <tr>
           <td class="fw-semibold">${aspirante.cedula}</td>
@@ -80,27 +85,30 @@ export default class Cl_vTableroDirectiva {
         });
     }
     /**
-     * Renderiza los datos de la persona ganadora (Únicamente Nombre y Cédula)
+     * Renderiza los datos de la persona ganadora de forma limpia y minimalista
      */
     mostrarGanador(ganador) {
         if (ganador === null) {
             this.cardGanador.innerHTML = `
-        <div class="alert alert-warning border-warning shadow-sm text-center mb-0" role="alert">
-          <h4 class="alert-heading fw-bold">⚠️ Concurso Declarado Desierto</h4>
-          <p class="mb-0 small text-dark">Ningún participante logró superar las notas mínimas de corte institucionales.</p>
+        <div style="padding: 15px; background-color: #fff3cd; color: #664d03; border: 1px solid #ffecb5; border-radius: 4px; text-align: center; margin-bottom: 20px;">
+          <strong style="font-size: 1.1em; display: block; margin-bottom: 4px;">⚠️ Concurso Declarado Desierto</strong>
+          <span style="font-size: 0.9em;">Ningún participante logró superar las notas mínimas de corte institucionales.</span>
         </div>
       `;
             return;
         }
+        // Caja minimalista plana adaptada al CSS nativo sin Bootstrap pesado
         this.cardGanador.innerHTML = `
-      <div class="card border-success border-2 shadow-sm text-center bg-white" style="margin-bottom: 20px; border: 2px solid #198754; border-radius: .375rem; background-color: #fff;">
-        <div class="card-header bg-success text-white fw-bold py-2" style="background-color: #198754; color: #fff; padding: 8px; font-weight: bold;">
-          🏆 GANADOR SELECCIONADO
-        </div>
-        <div class="card-body py-3" style="padding: 16px;">
-          <h3 class="card-title text-success fw-bold h4 mb-1" style="color: #198754; font-weight: bold; margin-bottom: 4px;">${ganador.nombre}</h3>
-          <p class="card-text text-muted small mb-0" style="color: #6c757d; font-size: .875em; margin-bottom: 0;">Cédula Identidad: <span class="fw-semibold text-dark" style="color: #212529; font-weight: 600;">${ganador.cedula}</span></p>
-        </div>
+      <div style="padding: 15px; background-color: #f8f9fa; border-left: 5px solid #198754; border-top: 1px solid #dee2e6; border-right: 1px solid #dee2e6; border-bottom: 1px solid #dee2e6; border-radius: 4px; margin-bottom: 25px; text-align: left;">
+        <span style="color: #198754; font-size: 0.85em; font-weight: bold; text-transform: uppercase; letter-spacing: 0.5px; display: block; margin-bottom: 5px;">
+          🏆 Postulante Seleccionado (Ganador único)
+        </span>
+        <h3 style="margin: 0 0 5px 0; color: #212529; font-size: 1.4em; font-weight: bold;">
+          ${ganador.nombre}
+        </h3>
+        <p style="margin: 0; color: #6c757d; font-size: 0.9em;">
+          Cédula de Identidad: <strong style="color: #212529;">${ganador.cedula}</strong>
+        </p>
       </div>
     `;
     }
