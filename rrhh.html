@@ -2,197 +2,131 @@
 <html lang="es">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>RRHH - Registro de Postulantes</title>
-  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>RRHH - Registro de Aspirantes</title>
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; font-family: sans-serif; }
+    body { background-color: #ffffff; padding-top: 60px; padding-bottom: 30px; color: #000000; }
+    
+    /* Barra superior fija de la App */
+    .app-bar { position: fixed; top: 0; left: 0; right: 0; height: 56px; background-color: #000000; color: #ffffff; display: flex; align-items: center; padding: 0 16px; z-index: 1000; border-bottom: 2px solid #000000; }
+    .app-bar h1 { font-size: 1.1rem; font-weight: bold; text-transform: uppercase; letter-spacing: 0.5px; }
+    
+    .container { width: 100%; max-width: 480px; margin: 0 auto; padding: 16px; }
+    
+    /* Nota aclaratoria inicial */
+    .card-info { font-size: 0.85rem; color: #000000; border: 2px dashed #000000; padding: 12px; margin-bottom: 20px; line-height: 1.4; text-align: center; }
+    
+    /* Contenedor tipo Formato enmarcado */
+    .formato-block { border: 1px solid #000000; margin-bottom: 24px; padding: 12px; background-color: #ffffff; }
+    
+    /* Título de formato con fondo invertido de alto contraste */
+    .formato-header { background-color: #000000; color: #ffffff; padding: 8px 10px; font-size: 0.85rem; font-weight: bold; text-transform: uppercase; margin: -12px -12px 16px -12px; letter-spacing: 0.5px; }
+    
+    /* --- MEJORA CRÍTICA: Distribución horizontal tipo fila de App --- */
+    .form-group-row { display: flex; align-items: center; justify-content: space-between; gap: 12px; margin-bottom: 12px; padding-bottom: 8px; border-bottom: 1px dashed #cccccc; }
+    .form-group-row:last-child { margin-bottom: 0; padding-bottom: 0; border-bottom: none; }
+    
+    .form-group-row label { flex: 1; font-size: 0.85rem; font-weight: bold; color: #000000; line-height: 1.3; }
+    
+    /* Cuadro pequeño alineado a la derecha para máximo 2 o 3 dígitos */
+    .form-control-small { width: 65px; height: 36px; padding: 4px; border: 1px solid #000000; font-size: 0.95rem; text-align: center; background-color: #ffffff; color: #000000; flex-shrink: 0; }
+    .form-control-small:focus { outline: 2px solid #000000; }
+    
+    /* Campos tradicionales solo para Datos Básicos (Cédula y Nombre completos) */
+    .form-group-vertical { margin-bottom: 14px; }
+    .form-group-vertical label { display: block; font-size: 0.85rem; font-weight: bold; margin-bottom: 6px; }
+    .form-control-full { width: 100%; height: 40px; padding: 8px; border: 1px solid #000000; font-size: 0.95rem; }
+
+    /* Botón de acción principal */
+    .btn-submit { width: 100%; height: 50px; background-color: #000000; color: #ffffff; border: 2px solid #000000; font-size: 1rem; font-weight: bold; text-transform: uppercase; cursor: pointer; letter-spacing: 1px; margin-top: 10px; }
+    .btn-submit:active { background-color: #ffffff; color: #000000; }
+    
+    /* Separador grueso doble */
+    .divider-groove { border: none; border-top: 3px double #000000; margin: 25px 0; }
+  </style>
 </head>
-<body class="bg-light">
+<body>
 
-  <nav class="navbar navbar-dark bg-primary shadow-sm mb-4">
-    <div class="container">
-      <span class="navbar-brand fw-bold">🏢 Global Innovators Corp. - Módulo de Recursos Humanos</span>
+  <header class="app-bar">
+    <h1>RRHH: Ingreso de Datos</h1>
+  </header>
+
+  <main class="container" id="registroRRHH">
+    <div class="card-info">
+      <strong>SISTEMA DE RESPALDO DE RECURSOS HUMANOS</strong><br>Registro y Transcripcion de Credenciales de Merito.
     </div>
-  </nav>
-
-  <main class="container my-4" style="max-width: 1000px;">
-    <section id="registroRRHH" class="card shadow border-0 p-4">
-      <div class="card-body">
-        <h2 class="card-title text-primary fw-bold h4 mb-3">📋 Formato CO-5 al CO-5.3: Registro y Evaluación de Credenciales de Mérito</h2>
-        <p class="text-muted small">Transcripción digital de baremos curriculares para la postulación al cargo de Analista de Innovación.</p>
-        <hr>
-
-        <div class="row g-3 mb-4">
-          <div class="col-md-4">
-            <label for="registro_inCedula" class="form-label fw-semibold small">Cédula de Identidad</label>
-            <input type="number" id="registro_inCedula" class="form-control shadow-sm" placeholder="Ej. 25123456" required>
-          </div>
-          <div class="col-md-8">
-            <label for="registro_inNombre" class="form-label fw-semibold small">Nombre Completo del Aspirante</label>
-            <input type="text" id="registro_inNombre" class="form-control shadow-sm" placeholder="Ej. María Pérez" required>
-          </div>
-        </div>
-
-        <h3 class="h5 text-secondary fw-bold mb-3">📊 Baremo de Selección Internacional (Evaluación Curricular)</h3>
-
-        <div class="bg-white p-3 rounded mb-4 border border-light shadow-sm">
-          <h4 class="h6 text-dark fw-bold mb-3 pb-2 border-bottom text-primary">Formato N° CO-5 - Credenciales de Mérito a Nivel de Estudios de Postgrado</h4>
-          <div class="row g-3">
-            <div class="col-md-6">
-              <label class="small text-muted fw-semibold">Postgrado en el área de especialidad objeto de la convocatoria, con trabajo/tesis aprobado (Máx 25 pts):</label>
-              <input type="number" id="f5_in1" class="form-control form-control-sm" placeholder="0.00" min="0" max="25">
-            </div>
-            <div class="col-md-6">
-              <label class="small text-muted fw-semibold">Otros estudios de postgrado universitario no vinculados con el área, con trabajo/tesis aprobado (Máx 20 pts):</label>
-              <input type="number" id="f5_in2" class="form-control form-control-sm" placeholder="0.00" min="0" max="20">
-            </div>
-            <div class="col-md-6">
-              <label class="small text-muted fw-semibold">Estudios/cursos de postgrado no conducentes a grado (Ampliación, actualización, perfeccionamiento) (Máx 6 pts):</label>
-              <input type="number" id="f5_in3" class="form-control form-control-sm" placeholder="0.00" min="0" max="6">
-            </div>
-            <div class="col-md-6">
-              <label class="small text-muted fw-semibold">Méritos y reconocimientos obtenidos por el trabajo de grado presentados, certificados por el jurado (Máx 5 pts):</label>
-              <input type="number" id="f5_in4" class="form-control form-control-sm" placeholder="0.00" min="0" max="5">
-            </div>
-          </div>
-        </div>
-
-        <div class="bg-white p-3 rounded mb-4 border border-light shadow-sm">
-          <h4 class="h6 text-dark fw-bold mb-3 pb-2 border-bottom text-primary">Formato N° CO-5.1 - Credenciales de Mérito a Nivel de Estudios de Pregrado</h4>
-          <div class="row g-3">
-            <div class="col-md-6">
-              <label class="small text-muted fw-semibold">Título universitario en el área de especialidad objeto de la convocatoria (Según promedio) (Máx 25 pts):</label>
-              <input type="number" id="f51_in1" class="form-control form-control-sm" placeholder="0.00" min="0" max="25">
-            </div>
-            <div class="col-md-6">
-              <label class="small text-muted fw-semibold">Actividad universitaria como preparador / asistente de investigación o extensión en el área (Mín 6 meses) (Máx 10 pts):</label>
-              <input type="number" id="f51_in2" class="form-control form-control-sm" placeholder="0.00" min="0" max="10">
-            </div>
-            <div class="col-md-6">
-              <label class="small text-muted fw-semibold">Actividad universitaria similar en otras áreas distintas (Mínimo 6 meses, máximo 3 actividades) (Máx 3 pts):</label>
-              <input type="number" id="f51_in3" class="form-control form-control-sm" placeholder="0.00" min="0" max="3">
-            </div>
-            <div class="col-md-6">
-              <label class="small text-muted fw-semibold">Diploma por promedio sobresaliente (19,0 a 20) en el área objeto de la convocatoria (Máx 5 pts):</label>
-              <input type="number" id="f51_in4" class="form-control form-control-sm" placeholder="0.00" min="0" max="5">
-            </div>
-            <div class="col-md-4">
-              <label class="small text-muted fw-semibold">Diploma por promedio sobresaliente en otras áreas (1 pt c/u, máx 3) (Máx 3 pts):</label>
-              <input type="number" id="f51_in5" class="form-control form-control-sm" placeholder="0.00" min="0" max="3">
-            </div>
-            <div class="col-md-4">
-              <label class="small text-muted fw-semibold">Diploma por reconocimientos en investigación (1 pt c/u, máx 3) (Máx 3 pts):</label>
-              <input type="number" id="f51_in6" class="form-control form-control-sm" placeholder="0.00" min="0" max="3">
-            </div>
-            <div class="col-md-4">
-              <label class="small text-muted fw-semibold">Diploma por reconocimientos en extensión (1 pt c/u, máx 3) (Máx 3 pts):</label>
-              <input type="number" id="f51_in7" class="form-control form-control-sm" placeholder="0.00" min="0" max="3">
-            </div>
-          </div>
-        </div>
-
-        <div class="bg-white p-3 rounded mb-4 border border-light shadow-sm">
-          <h4 class="h6 text-dark fw-bold mb-3 pb-2 border-bottom text-primary">Formato N° CO-5.2 - Evaluación de Producción Científica</h4>
-          <div class="row g-3">
-            <div class="col-md-6">
-              <label class="small text-muted fw-semibold">Libros o textos en el área objeto, con comité editorial (Autor único) (Máx 15 pts):</label>
-              <input type="number" id="f52_in1" class="form-control form-control-sm" placeholder="0.00" min="0" max="15">
-            </div>
-            <div class="col-md-6">
-              <label class="small text-muted fw-semibold">Libros o textos en el área objeto, sin comité editorial (Autor único) (Máx 12 pts):</label>
-              <input type="number" id="f52_in2" class="form-control form-control-sm" placeholder="0.00" min="0" max="12">
-            </div>
-            <div class="col-md-4">
-              <label class="small text-muted fw-semibold">Artículos en revistas arbitradas indexadas (Máx 10 pts):</label>
-              <input type="number" id="f52_in3" class="form-control form-control-sm" placeholder="0.00" min="0" max="10">
-            </div>
-            <div class="col-md-4">
-              <label class="small text-muted fw-semibold">Artículos en revistas arbitradas no indexadas (Máx 6 pts):</label>
-              <input type="number" id="f52_in4" class="form-control form-control-sm" placeholder="0.00" min="0" max="6">
-            </div>
-            <div class="col-md-4">
-              <label class="small text-muted fw-semibold">Artículos en revistas no arbitradas en el área (Máx 4 pts):</label>
-              <input type="number" id="f52_in5" class="form-control form-control-sm" placeholder="0.00" min="0" max="4">
-            </div>
-            <div class="col-md-4">
-              <label class="small text-muted fw-semibold">Otros artículos con respaldo editorial en otras áreas (Máx 3 pts):</label>
-              <input type="number" id="f52_in6" class="form-control form-control-sm" placeholder="0.00" min="0" max="3">
-            </div>
-            <div class="col-md-4">
-              <label class="small text-muted fw-semibold">Artículos en memorias de congresos o eventos (Máx 10 pts):</label>
-              <input type="number" id="f52_in7" class="form-control form-control-sm" placeholder="0.00" min="0" max="10">
-            </div>
-            <div class="col-md-4">
-              <label class="small text-muted fw-semibold">Ponencias o trabajos en eventos científicos (Máx 6 pts):</label>
-              <input type="number" id="f52_in8" class="form-control form-control-sm" placeholder="0.00" min="0" max="6">
-            </div>
-            <div class="col-md-12">
-              <label class="small text-muted fw-semibold">Patentes registradas a nivel internacional (Máx 15 pts):</label>
-              <input type="number" id="f52_in9" class="form-control form-control-sm" placeholder="0.00" min="0" max="15">
-            </div>
-          </div>
-        </div>
-
-        <div class="bg-white p-3 rounded mb-4 border border-light shadow-sm">
-          <h4 class="h6 text-dark fw-bold mb-3 pb-2 border-bottom text-primary">Formato N° CO-5.3 - Méritos y Experiencia Académica y Profesional</h4>
-          <div class="row g-3">
-            <div class="col-md-6">
-              <label class="small text-muted fw-semibold">Actividades comprobables en Docencia, Investigación o Extensión en el área (Hasta 6 años, 2 pts/año) (Máx 12 pts):</label>
-              <input type="number" id="f53_in1" class="form-control form-control-sm" placeholder="0.00" min="0" max="12">
-            </div>
-            <div class="col-md-6">
-              <label class="small text-muted fw-semibold">Premios o reconocimientos a la docencia, investigación o extensión (2 pts por premio, máx 4) (Máx 8 pts):</label>
-              <input type="number" id="f53_in2" class="form-control form-control-sm" placeholder="0.00" min="0" max="8">
-            </div>
-            <div class="col-md-6">
-              <label class="small text-muted fw-semibold">Experiencia profesional en el área objeto de la convocatoria (Hasta 6 años, 1 pto/cada 6 meses) (Máx 6 pts):</label>
-              <input type="number" id="f53_in3" class="form-control form-control-sm" placeholder="0.00" min="0" max="6">
-            </div>
-            <div class="col-md-6">
-              <label class="small text-muted fw-semibold">Experiencia profesional en áreas distintas al área objeto (Hasta 3 años, 0.5 pts/cada 6 meses) (Máx 3 pts):</label>
-              <input type="number" id="f53_in4" class="form-control form-control-sm" placeholder="0.00" min="0" max="3">
-            </div>
-            <div class="col-md-6">
-              <label class="small text-muted fw-semibold">Premios/distinciones a labor profesional (Máx 4 premios: estadal 0.5, nacional 0.75, internacional 1 pt) (Máx 4 pts):</label>
-              <input type="number" id="f53_in5" class="form-control form-control-sm" placeholder="0.00" min="0" max="4">
-            </div>
-            <div class="col-md-6">
-              <label class="small text-muted fw-semibold">Dirección de institutos/departamentos de investigación o extensión (Hasta 3 años, 1 pto/cada 6 meses) (Máx 6 pts):</label>
-              <input type="number" id="f53_in6" class="form-control form-control-sm" placeholder="0.00" min="0" max="6">
-            </div>
-            <div class="col-md-6">
-              <label class="small text-muted fw-semibold">Pasantías profesionales certificadas en el área objeto (Máx 4 pasantías, 0.5 pto/cada 6 meses) (Máx 4 pts):</label>
-              <input type="number" id="f53_in7" class="form-control form-control-sm" placeholder="0.00" min="0" max="4">
-            </div>
-            <div class="col-md-6">
-              <label class="small text-muted fw-semibold">Pasantías certificadas en otras áreas (Máx 2 pasantías, 0.5 pto/cada 6 meses) (Máx 2 pts):</label>
-              <input type="number" id="f53_in8" class="form-control form-control-sm" placeholder="0.00" min="0" max="2">
-            </div>
-          </div>
-        </div>
-
-        <div class="d-flex justify-content-end">
-          <button id="registro_btAgregar" class="btn btn-primary px-5 fw-semibold shadow-sm">💾 Registrar Postulante</button>
-          <input type="hidden" id="registro_btVolver"> 
-        </div>
+    
+    <div class="formato-block">
+      <div class="formato-header">Fase I: Identificación del Candidato</div>
+      <div class="form-group-vertical">
+        <label for="registro_inCedula">Cédula de Identidad (ID Nacional):</label>
+        <input type="number" id="registro_inCedula" class="form-control-full" placeholder="Ej. 25123456" inputmode="numeric">
       </div>
-    </section>
+      <div class="form-group-vertical">
+        <label for="registro_inNombre">Nombre Completo del Aspirante:</label>
+        <input type="text" id="registro_inNombre" class="form-control-full" placeholder="Ej. María Pérez">
+      </div>
+    </div>
+
+    <hr class="divider-groove">
+
+    <div class="formato-block">
+      <div class="formato-header">Formato N° CO-5: Postgrado (Máx 35 pts)</div>
+      <div class="form-group-row"><label>Postgrado Especialidad Objeto (Máx 25):</label><input type="number" id="f5_in1" class="form-control-small" placeholder="0" inputmode="decimal"></div>
+      <div class="form-group-row"><label>Otros Postgrados (Máx 20):</label><input type="number" id="f5_in2" class="form-control-small" placeholder="0" inputmode="decimal"></div>
+      <div class="form-group-row"><label>Cursos de Ampliación (Máx 6):</label><input type="number" id="f5_in3" class="form-control-small" placeholder="0" inputmode="decimal"></div>
+      <div class="form-group-row"><label>Reconocimientos Tesis (Máx 5):</label><input type="number" id="f5_in4" class="form-control-small" placeholder="0" inputmode="decimal"></div>
+    </div>
+
+    <div class="formato-block">
+      <div class="formato-header">Formato N° CO-5.1: Pregrado (Máx 30 pts)</div>
+      <div class="form-group-row"><label>Título Universitario Especialidad (Máx 25):</label><input type="number" id="f51_in1" class="form-control-small" placeholder="0" inputmode="decimal"></div>
+      <div class="form-group-row"><label>Preparador/Asistente de Investigación (Máx 10):</label><input type="number" id="f51_in2" class="form-control-small" placeholder="0" inputmode="decimal"></div>
+      <div class="form-group-row"><label>Preparador en Áreas Distintas (Máx 3):</label><input type="number" id="f51_in3" class="form-control-small" placeholder="0" inputmode="decimal"></div>
+      <div class="form-group-row"><label>Diploma Promedio Área Objeto (Máx 5):</label><input type="number" id="f51_in4" class="form-control-small" placeholder="0" inputmode="decimal"></div>
+      <div class="form-group-row"><label>Diploma Promedio Otras Áreas (Máx 3):</label><input type="number" id="f51_in5" class="form-control-small" placeholder="0" inputmode="decimal"></div>
+      <div class="form-group-row"><label>Diploma Reconocimiento Investigación (Máx 3):</label><input type="number" id="f51_in6" class="form-control-small" placeholder="0" inputmode="decimal"></div>
+      <div class="form-group-row"><label>Diploma Reconocimiento Extensión (Máx 3):</label><input type="number" id="f51_in7" class="form-control-small" placeholder="0" inputmode="decimal"></div>
+    </div>
+
+    <div class="formato-block">
+      <div class="formato-header">Formato N° CO-5.2: Producción Científica (Máx 15 pts)</div>
+      <div class="form-group-row"><label>Libros con Comité Editorial (Máx 15):</label><input type="number" id="f52_in1" class="form-control-small" placeholder="0" inputmode="decimal"></div>
+      <div class="form-group-row"><label>Libros sin Comité Editorial (Máx 12):</label><input type="number" id="f52_in2" class="form-control-small" placeholder="0" inputmode="decimal"></div>
+      <div class="form-group-row"><label>Artículos Revistas Indexadas (Máx 10):</label><input type="number" id="f52_in3" class="form-control-small" placeholder="0" inputmode="decimal"></div>
+      <div class="form-group-row"><label>Artículos Arbitrados No Indexados (Máx 6):</label><input type="number" id="f52_in4" class="form-control-small" placeholder="0" inputmode="decimal"></div>
+      <div class="form-group-row"><label>Artículos en Revistas No Arbitradas (Máx 4):</label><input type="number" id="f52_in5" class="form-control-small" placeholder="0" inputmode="decimal"></div>
+      <div class="form-group-row"><label>Otros Artículos en Otras Áreas (Máx 3):</label><input type="number" id="f52_in6" class="form-control-small" placeholder="0" inputmode="decimal"></div>
+      <div class="form-group-row"><label>Artículos Memorias Congresos (Máx 10):</label><input type="number" id="f52_in7" class="form-control-small" placeholder="0" inputmode="decimal"></div>
+      <div class="form-group-row"><label>Ponencias Eventos Científicos (Máx 6):</label><input type="number" id="f52_in8" class="form-control-small" placeholder="0" inputmode="decimal"></div>
+      <div class="form-group-row"><label>Patentes Registradas Internacionales (Máx 15):</label><input type="number" id="f52_in9" class="form-control-small" placeholder="0" inputmode="decimal"></div>
+    </div>
+
+    <div class="formato-block">
+      <div class="formato-header">Formato N° CO-5.3: Méritos y Experiencia (Máx 20 pts)</div>
+      <div class="form-group-row"><label>Actividad Docencia/Investigación (Máx 12):</label><input type="number" id="f53_in1" class="form-control-small" placeholder="0" inputmode="decimal"></div>
+      <div class="form-group-row"><label>Premios/Reconocimientos Docencia (Máx 8):</label><input type="number" id="f53_in2" class="form-control-small" placeholder="0" inputmode="decimal"></div>
+      <div class="form-group-row"><label>Experiencia Profesional Área (Máx 6):</label><input type="number" id="f53_in3" class="form-control-small" placeholder="0" inputmode="decimal"></div>
+      <div class="form-group-row"><label>Experiencia Áreas Distintas (Máx 3):</label><input type="number" id="f53_in4" class="form-control-small" placeholder="0" inputmode="decimal"></div>
+      <div class="form-group-row"><label>Premios Labor Profesional (Máx 4):</label><input type="number" id="f53_in5" class="form-control-small" placeholder="0" inputmode="decimal"></div>
+      <div class="form-group-row"><label>Dirección Institutos/Departamentos (Máx 6):</label><input type="number" id="f53_in6" class="form-control-small" placeholder="0" inputmode="decimal"></div>
+      <div class="form-group-row"><label>Pasantías Profesionales Área (Máx 4):</label><input type="number" id="f53_in7" class="form-control-small" placeholder="0" inputmode="decimal"></div>
+      <div class="form-group-row"><label>Pasantías Otras Áreas (Máx 2):</label><input type="number" id="f53_in8" class="form-control-small" placeholder="0" inputmode="decimal"></div>
+    </div>
+    
+    <hr class="divider-groove">
+
+    <button id="registro_btAgregar" class="btn-submit">Guardar en Base de Datos</button>
+    <input type="hidden" id="registro_btVolver">
   </main>
 
   <script type="module">
     import Cl_vRegistroRRHH from "./dist/views/Cl_vRegistroRRHH.js";
     import Cl_cRegistroRRHH from "./dist/controllers/Cl_cRegistroRRHH.js";
     import Cl_mConcurso from "./dist/models/Cl_mConcurso.js";
-
-    // CORRECCIÓN CRÍTICA: Forzamos el mapeo una vez que todo el DOM esté listo en pantalla
     window.onload = () => {
-      const vista = new Cl_vRegistroRRHH();
-      const modelo = new Cl_mConcurso();
-      
-      new Cl_cRegistroRRHH({
-        modelo: modelo,
-        vista: vista,
-        volverCallback: () => {}
-      });
+      new Cl_cRegistroRRHH({ modelo: new Cl_mConcurso(), vista: new Cl_vRegistroRRHH(), volverCallback: () => {} });
     };
   </script>
 </body>
