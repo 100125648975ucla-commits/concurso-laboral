@@ -1,17 +1,18 @@
+import { Cl_mMaximos } from "./Cl_mMaximos.js";
 export default class Cl_mAspirante {
     tabla = "aspirantes";
     _cedula = 0;
     _nombre = "";
-    _puntajesForm5 = [0, 0, 0, 0];
-    _puntajesForm51 = [0, 0, 0, 0, 0, 0, 0];
-    _puntajesForm52 = [0, 0, 0, 0, 0, 0, 0, 0, 0];
-    _puntajesForm53 = [0, 0, 0, 0, 0, 0, 0, 0];
+    _puntajesForm5 = Array(Cl_mMaximos.tamanoForm5).fill(0);
+    _puntajesForm51 = Array(Cl_mMaximos.tamanoForm51).fill(0);
+    _puntajesForm52 = Array(Cl_mMaximos.tamanoForm52).fill(0);
+    _puntajesForm53 = Array(Cl_mMaximos.tamanoForm53).fill(0);
     _notaExamenEscrito = 0;
     _notaExamenPractico = 0;
-    _evaluacionAspectosJuradoA = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
-    _evaluacionAspectosJuradoB = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
-    _evaluacionAspectosJuradoC = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
-    constructor({ cedula, nombre, puntajesForm5 = [0, 0, 0, 0], puntajesForm51 = [0, 0, 0, 0, 0, 0, 0], puntajesForm52 = [0, 0, 0, 0, 0, 0, 0, 0, 0], puntajesForm53 = [0, 0, 0, 0, 0, 0, 0, 0], notaExamenEscrito = 0, notaExamenPractico = 0, evaluacionAspectosJuradoA = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], evaluacionAspectosJuradoB = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], evaluacionAspectosJuradoC = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], }) {
+    _evaluacionAspectosJuradoA = Array(Cl_mMaximos.tamanoJurado).fill(0);
+    _evaluacionAspectosJuradoB = Array(Cl_mMaximos.tamanoJurado).fill(0);
+    _evaluacionAspectosJuradoC = Array(Cl_mMaximos.tamanoJurado).fill(0);
+    constructor({ cedula, nombre, puntajesForm5 = Array(Cl_mMaximos.tamanoForm5).fill(0), puntajesForm51 = Array(Cl_mMaximos.tamanoForm51).fill(0), puntajesForm52 = Array(Cl_mMaximos.tamanoForm52).fill(0), puntajesForm53 = Array(Cl_mMaximos.tamanoForm53).fill(0), notaExamenEscrito = 0, notaExamenPractico = 0, evaluacionAspectosJuradoA = Array(Cl_mMaximos.tamanoJurado).fill(0), evaluacionAspectosJuradoB = Array(Cl_mMaximos.tamanoJurado).fill(0), evaluacionAspectosJuradoC = Array(Cl_mMaximos.tamanoJurado).fill(0), }) {
         this.cedula = cedula;
         this.nombre = nombre;
         this.puntajesForm5 = puntajesForm5;
@@ -46,81 +47,99 @@ export default class Cl_mAspirante {
     set evaluacionAspectosJuradoB(v) { this._evaluacionAspectosJuradoB = v; }
     get evaluacionAspectosJuradoC() { return this._evaluacionAspectosJuradoC; }
     set evaluacionAspectosJuradoC(v) { this._evaluacionAspectosJuradoC = v; }
-    // ========================================================
-    // IMPLEMENTACIÓN DE MÉTODOS DEL DIAGRAMA UML
-    // ========================================================
+    // METODOS 
     puntosForm5() {
         const bold = this.puntajesForm5.reduce((acc, nota) => acc + nota, 0);
-        return bold > 35 ? 35 : bold;
+        return bold > Cl_mMaximos.topePuntajeForm5 ? Cl_mMaximos.topePuntajeForm5 : bold;
     }
     puntosForm51() {
         const bold = this.puntajesForm51.reduce((acc, nota) => acc + nota, 0);
-        return bold > 30 ? 30 : bold;
+        return bold > Cl_mMaximos.topePuntajeForm51 ? Cl_mMaximos.topePuntajeForm51 : bold;
     }
     puntosForm52() {
         const bold = this.puntajesForm52.reduce((acc, nota) => acc + nota, 0);
-        return bold > 15 ? 15 : bold;
+        return bold > Cl_mMaximos.topePuntajeForm52 ? Cl_mMaximos.topePuntajeForm52 : bold;
     }
     puntosForm53() {
         const bold = this.puntajesForm53.reduce((acc, nota) => acc + nota, 0);
-        return bold > 20 ? 20 : bold;
+        return bold > Cl_mMaximos.topePuntajeForm53 ? Cl_mMaximos.topePuntajeForm53 : bold;
     }
+    // FORMULARIO 6 (sumatoria de los puntos de las credenciales )
     totalForm6Sobre100() {
         return this.puntosForm5() + this.puntosForm51() + this.puntosForm52() + this.puntosForm53();
     }
     calificacionFinalForm6() {
         return this.totalForm6Sobre100() / 5;
     }
-    /**
-     * Ponderación de Credenciales (10%): Aporta un rango de 0 a 10 puntos reales directos
-     */
+    // FORMULARIO 7 (CALIFICACION DE LA CREDENCIAL BASE AL 10%)
     calificacion10PorcForm7() {
         return this.totalForm6Sobre100() * 0.10;
     }
+    // FORMULARIO 8 (Examen escrito y practico) maximo 40 pts
     calificacionForm8() {
         return this.notaExamenEscrito + this.notaExamenPractico;
     }
-    /**
-     * Ponderación de Conocimientos (60%): Aporta un rango de 0 a 60 puntos reales directos
-     */
+    // luego llevamos al 60%
     calificacion60PorcForm8() {
         return (this.calificacionForm8() / 40) * 60;
     }
+    // sumatoria de puntos evaluados por el jurado (maximo 180 pts)
     totalPuntosExposicion() {
         const sumA = this.evaluacionAspectosJuradoA.reduce((acc, val) => acc + val, 0);
         const sumB = this.evaluacionAspectosJuradoB.reduce((acc, val) => acc + val, 0);
         const sumC = this.evaluacionAspectosJuradoC.reduce((acc, val) => acc + val, 0);
         return sumA + sumB + sumC;
     }
+    // formulario 9
     calificacionForm9() {
         return this.totalPuntosExposicion() / 9;
     }
-    /**
-     * Ponderación de Aptitudes (30%): Aporta un rango de 0 a 30 puntos reales directos
-     */
+    // Ponderación de Aptitudes (30%): 
     calificacion30PorcForm9() {
-        return (this.totalPuntosExposicion() / 180) * 30;
+        return (this.calificacionForm9() / 20) * 30;
     }
-    /**
-     * NOTA DEFINITIVA (100%): Suma directa de las ponderaciones limpias (Rango exacto de 0 a 100 pts)
-     */
+    // NOTA DEFINITIVA (maximo 100 pts)
     notaDefinitiva() {
         return this.calificacion10PorcForm7() + this.calificacion60PorcForm8() + this.calificacion30PorcForm9();
     }
-    /**
-     * Dictamina las decisiones de corte institucionales
-     */
+    // VEREDICTO FINAL (llevado a 20pts)
     obtenerVeredicto() {
-        // Filtro Técnico: Exclusivo de Conocimientos (Menos de 15 pts brutos en exámenes de 40)
         if (this.calificacionForm8() < 15) {
             return "Improbado en Conocimiento";
         }
-        // Filtro Global: La nota definitiva sobre 100 reducida a la escala de 20 debe ser menor a 16
         const notaEscala20 = (this.notaDefinitiva() / 100) * 20;
         if (notaEscala20 < 16) {
             return "Improbado por Nota Mínima";
         }
         return "Aprobado";
+    }
+    // =========================================================================
+    // CORRECCIÓN REQUERIDA POR EL DOCENTE: VALIDACIÓN INTERNA DEL MODELO
+    // =========================================================================
+    get datosOk() {
+        // Validación de datos básicos obligatorios
+        if (this.cedula <= 0) {
+            return "Error: La cédula ingresada debe ser un número positivo válido.";
+        }
+        if (this.nombre === "") {
+            return "Error: El nombre completo del aspirante no puede estar vacío.";
+        }
+        // Validación de rangos en Notas de Exámenes (CO-8)
+        if (this.notaExamenEscrito < 0 || this.notaExamenEscrito > 20) {
+            return "Error: La nota del examen escrito debe estar comprendida entre 0 y 20.";
+        }
+        if (this.notaExamenPractico < 0 || this.notaExamenPractico > 20) {
+            return "Error: La nota del examen práctico debe estar comprendida entre 0 y 20.";
+        }
+        // OJO PROFESOR: Se evalúa de manera individual una línea para cada jurado (A, B y C)
+        const tieneErrorA = this.evaluacionAspectosJuradoA.some(nota => nota < 1 || nota > 5);
+        const tieneErrorB = this.evaluacionAspectosJuradoB.some(nota => nota < 1 || nota > 5);
+        const tieneErrorC = this.evaluacionAspectosJuradoC.some(nota => nota < 1 || nota > 5);
+        if (tieneErrorA || tieneErrorB || tieneErrorC) {
+            return "Error de rango: Las puntuaciones de la matriz de exposición de los jurados (A, B y C) deben estar estrictamente entre 1 y 5.";
+        }
+        // Si pasa todos los filtros de consistencia, retorna un valor limpio (null o string vacío)
+        return "";
     }
     toJSON() {
         return {

@@ -7,10 +7,6 @@ export default class Cl_mConcurso {
     agregar(aspirante) {
         this._aspirantes.push(aspirante);
     }
-    /**
-     * Transforma el arreglo de objetos planos que retorna MockAPI
-     * en instancias operativas con métodos de TypeScript.
-     */
     setAspirantes(arrayRaw) {
         this._aspirantes = [];
         arrayRaw.forEach((item) => {

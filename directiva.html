@@ -2,65 +2,95 @@
 <html lang="es">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-  <title>Directiva - Tablero</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Global Innovators Corp. - Tablero de Posiciones</title>
+  
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+  
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css" rel="stylesheet">
   <style>
-    * { box-sizing: border-box; margin: 0; padding: 0; font-family: sans-serif; }
-    body { background-color: #ffffff; padding-top: 60px; padding-bottom: 20px; color: #000000; }
+    /* CONTEXTO GENERAL EN AZULES SUAVES */
+    body { background: linear-gradient(135deg, #f0f4f8 0%, #d9e2ec 100%); min-height: 100vh; padding-bottom: 30px; }
+    .bg-premium-blue { background: linear-gradient(135deg, #0b2545 0%, #134074 100%); }
+    /* CUADRO DE MANDOS CON BORDE INFINITO Y ESTILO PREMIUM */
+    .card-dashboard { border: none; border-radius: 18px; box-shadow: 0 10px 30px rgba(11, 37, 69, 0.08); background-color: #ffffff; overflow: hidden; }
+    .titulo-dashboard { font-size: 0.8rem; font-weight: 800; letter-spacing: 0.8px; color: #134074; text-transform: uppercase; margin-bottom: 12px; margin-top: 18px; display: flex; align-items: center; }
+    .titulo-dashboard i { font-size: 1.1rem; color: #0b2545; }
     
-    .app-bar { position: fixed; top: 0; left: 0; right: 0; height: 56px; background-color: #000000; color: #ffffff; display: flex; align-items: center; justify-content: space-between; padding: 0 16px; z-index: 1000; }
-    .app-bar h1 { font-size: 1.1rem; font-weight: bold; }
-    
-    .btn-sync { padding: 6px 12px; background-color: #ffffff; color: #000000; border: 1px solid #ffffff; font-size: 0.8rem; font-weight: bold; cursor: pointer; }
-    .btn-sync:active { background-color: #cccccc; color: #000000; }
-    
-    .container { width: 100%; max-width: 480px; margin: 0 auto; padding: 16px; }
-    .section-title { font-size: 0.9rem; color: #000000; margin: 20px 0 10px 0; border-bottom: 2px solid #000000; padding-bottom: 4px; text-transform: uppercase; font-weight: bold; }
-    
-    .table-scrollable { width: 100%; overflow-x: auto; background: #ffffff; border: 1px solid #000000; margin-bottom: 20px; }
-    table { width: 100%; border-collapse: collapse; min-width: 600px; font-size: 0.85rem; }
-    th, td { padding: 12px 10px; border-bottom: 1px solid #000000; border-right: 1px solid #000000; text-align: center; color: #000000; }
-    th { background-color: #ffffff; font-weight: bold; font-size: 0.75rem; }
-    
-    .glosario { background: #ffffff; border: 1px solid #000000; padding: 12px; font-size: 0.8rem; color: #000000; line-height: 1.5; }
+    /* CONTROL DE TABLA MODERNA COMERCIAL */
+    .table-modern th { font-size: 0.75rem; text-transform: uppercase; letter-spacing: 0.5px; background-color: #f0f4f8; color: #134074; border: none; padding: 12px 6px; }
+    .table-modern td { border-bottom: 1px solid #e2e8f0; font-size: 0.9rem; padding: 14px 6px; vertical-align: middle; color: #334e68; }
+    /* INDICADOR INTERACTIVO AL PASAR EL MOUSE (EFECTO FEEDBACK VIVO) */
+    .fila-click { transition: all 0.2s ease; }
+    .fila-click:hover { background-color: rgba(19, 64, 116, 0.05) !important; transform: scale(1.01); }
   </style>
 </head>
 <body>
-  <header class="app-bar">
-    <h1>CO-11: Veredicto Global</h1>
-    <button id="tablero_btRecargar" class="btn-sync">Sincronizar</button>
+
+  <!-- CABECERA INSTITUCIONAL VIVA (AZUL ELÉCTRICO PROFUNDO) -->
+  <header class="bg-premium-blue text-white shadow-sm mb-4 py-3">
+    <div class="container d-flex justify-content-between align-items-center" style="max-width:460px;">
+      <div class="text-start">
+        <h1 class="h6 text-uppercase mb-0 fw-bold tracking-wider"><i class="bi bi-activity text-info me-2"></i>Global Innovators</h1>
+        <small class="text-info text-uppercase fw-semibold" style="font-size:0.6rem; opacity:0.85;">CO-11: Monitor del Sistema Laboral</small>
+      </div>
+      <button id="tablero_btRecargar" class="btn btn-sm btn-info text-white fw-bold text-uppercase shadow" style="font-size:0.7rem; border-radius:8px; background-color: #1982c4; border: none;">
+        <i class="bi bi-arrow-clockwise me-1"></i>Sincronizar
+      </button>
+    </div>
   </header>
-  <main class="container" id="tableroDirectiva">
-    <div class="section-title">Adjudicación del Cargo</div>
-    <div id="tablero_cardGanador"></div>
+
+  <!-- CUADRO GENERAL (ENFOQUE MOBILE-FIRST) -->
+  <main class="container" style="max-width: 460px;" id="tableroDirectiva">
     
-    <div class="section-title">Cuadro de Ponderaciones</div>
-    <div class="table-scrollable">
-      <table>
+    <!-- CONTENEDOR DINÁMICO: TITULAR DE LA PLAZA (GANADOR DEL CARGO) -->
+    <div class="titulo-dashboard"><i class="bi bi-award-fill me-2"></i>Candidato Seleccionado</div>
+    <div id="tablero_cardGanador" class="mb-2"></div>
+    
+    <!-- TABLA COMERCIAL DE ESCALAFÓN -->
+    <div class="titulo-dashboard"><i class="bi bi-grid-1x2-fill me-2"></i>Escalafón de Postulantes</div>
+    <div class="card card-dashboard p-0 mb-4 border-bottom border-primary border-3">
+      <table class="table table-hover table-modern align-middle mb-0 text-center">
         <thead>
           <tr>
-            <th>Cédula</th>
-            <th>Nombre Postulante</th>
-            <th>Cred (10%)</th>
-            <th>Conoc (60%)</th>
-            <th>Apt (30%)</th>
-            <th>Definitiva (100)</th>
-            <th>Resultado Final</th>
+            <th class="ps-3 text-start">Cédula</th>
+            <th class="text-start">Postulante</th>
+            <th class="pe-3">Nota Final</th>
           </tr>
         </thead>
-        <tbody id="tablero_tblRegistros"></tbody>
+        
+        <tbody id="tablero_tblRegistros" class="bg-white"></tbody>
       </table>
     </div>
-    
-    <div class="glosario">
-      <strong>Memorando Institucional - Políticas de Ingreso:</strong>
-      <p>• Aprobado (Mayor calificación): Seleccionado para el cargo.</p>
-      <p>• Aprobado: Superó los cortes mínimos.</p>
-      <p>• Improbado por Nota Mínima: Nota global inferior a 16 pts.</p>
-      <p>• Improbado en Conocimiento: Menos de 15 pts en la prueba técnica.</p>
+
+    <!-- NOTAS TÉCNICAS REGLAMENTARIAS -->
+    <div class="card card-dashboard p-3 bg-white border-start border-info border-4 shadow-sm" style="font-size:0.78rem; line-height:1.5;">
+      <strong class="text-uppercase d-block text-dark fw-bold mb-2"><i class="bi bi-shield-shaded me-1 text-primary"></i>Criterios de Adjudicación Legal:</strong>
+      <p class="mb-1 text-secondary">• <span class="badge bg-success-subtle text-success">Aprobado</span> Superó la ponderación de corte institucional.</p>
+      <p class="mb-1 text-secondary">• <span class="badge bg-danger-subtle text-danger">Nota Mínima</span> Calificación ponderada final inferior a 16/20 pts.</p>
+      <p class="mb-0 text-secondary">• <span class="badge bg-warning-subtle text-warning">Prueba Técnica</span> Menos de 15 puntos brutos en conocimientos.</p>
     </div>
+
     <input type="hidden" id="tablero_btVolver">
   </main>
+
+  <div class="modal fade" id="modalAuditoria" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+      <div class="modal-content shadow-lg border-0" style="border-radius:20px; overflow:hidden;">
+        <!-- Encabezado del Modal en Azul -->
+        <div class="modal-header bg-premium-blue text-white py-3">
+          <h6 class="modal-title text-uppercase fw-bold small"><i class="bi bi-file-earmark-spreadsheet-fill text-info me-2"></i>Reporte Analítico del Candidato</h6>
+          <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        
+        <div class="modal-body bg-light" id="modalAuditoria_contenido" style="font-size: 0.85rem; padding: 20px;">
+         
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
   <script type="module">
     import Cl_vTableroDirectiva from "./dist/views/Cl_vTableroDirectiva.js";
     import Cl_cTableroDirectiva from "./dist/controllers/Cl_cTableroDirectiva.js";

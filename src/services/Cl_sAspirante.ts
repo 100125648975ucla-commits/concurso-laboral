@@ -3,27 +3,20 @@ import mockapi from "./Cl_sMockApi.js";
 
 export default class Cl_sAspirante {
   static async existe(cedula: number): Promise<{ ok: boolean; existe: boolean }> {
-    // Enviamos únicamente el id numérico
     return await mockapi.existeId({ id: cedula });
   }
 
-  /**
-   * Convierte la instancia a JSON para guardarla en el servidor
-   */
   static async agregar(nuevoAspirante: Cl_mAspirante): Promise<{ ok: boolean; mensaje: string }> {
     const datosJSON = nuevoAspirante.toJSON();
     return await mockapi.post(datosJSON);
   }
 
-  /**
-   * Descarga la lista completa de aspirantes sin parámetros extras
-   */
-  static async getAspirantes(): Promise<{ ok: boolean; tabla: Cl_mAspirante[] }> {
-    return await mockapi.getTabla();
+  static async getAspirantes(): Promise<{ ok: boolean; tabla: any[] }> {
+    let resultado = await mockapi.getTabla();
+    return { ok: resultado.ok, tabla: resultado.tabla };
   }
 
   static async buscarPorCedula(cedula: number): Promise<{ ok: boolean; aspirante: Cl_mAspirante | null }> {
-    
     let resultado = await mockapi.buscarPorCedula({ id: cedula });
     
     if (resultado.ok && resultado.data !== null) {
@@ -41,18 +34,13 @@ export default class Cl_sAspirante {
         evaluacionAspectosJuradoC: resultado.data.evaluacionAspectosJuradoC, 
       });
       
-      // Adjuntamos el identificador único de internet
       (aspiranteInstanciado as any).idMockApi = resultado.data.id;
-      
       return { ok: true, aspirante: aspiranteInstanciado };
     }
     
     return { ok: resultado.ok, aspirante: null };
   }
 
-  /**
-   * Envía la actualización de notas del jurado utilizando el ID de MockAPI
-   */
   static async actualizar(aspirante: Cl_mAspirante): Promise<{ ok: boolean; mensaje: string }> {
     const idMockApi = (aspirante as any).idMockApi;
     if (!idMockApi) {

@@ -2,21 +2,15 @@ import Cl_mAspirante from "../models/Cl_mAspirante.js";
 import mockapi from "./Cl_sMockApi.js";
 export default class Cl_sAspirante {
     static async existe(cedula) {
-        // Enviamos únicamente el id numérico
         return await mockapi.existeId({ id: cedula });
     }
-    /**
-     * Convierte la instancia a JSON para guardarla en el servidor
-     */
     static async agregar(nuevoAspirante) {
         const datosJSON = nuevoAspirante.toJSON();
         return await mockapi.post(datosJSON);
     }
-    /**
-     * Descarga la lista completa de aspirantes sin parámetros extras
-     */
     static async getAspirantes() {
-        return await mockapi.getTabla();
+        let resultado = await mockapi.getTabla();
+        return { ok: resultado.ok, tabla: resultado.tabla };
     }
     static async buscarPorCedula(cedula) {
         let resultado = await mockapi.buscarPorCedula({ id: cedula });
@@ -34,15 +28,11 @@ export default class Cl_sAspirante {
                 evaluacionAspectosJuradoB: resultado.data.evaluacionAspectosJuradoB,
                 evaluacionAspectosJuradoC: resultado.data.evaluacionAspectosJuradoC,
             });
-            // Adjuntamos el identificador único de internet
             aspiranteInstanciado.idMockApi = resultado.data.id;
             return { ok: true, aspirante: aspiranteInstanciado };
         }
         return { ok: resultado.ok, aspirante: null };
     }
-    /**
-     * Envía la actualización de notas del jurado utilizando el ID de MockAPI
-     */
     static async actualizar(aspirante) {
         const idMockApi = aspirante.idMockApi;
         if (!idMockApi) {

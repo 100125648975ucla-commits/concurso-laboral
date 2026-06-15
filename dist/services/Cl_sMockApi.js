@@ -1,9 +1,5 @@
 export default class Cl_sMockApi {
-    // URL oficial confirmada de tu proyecto Concurso Laboral
     static apiUrl = "https://6a1a01c3489e4715751aac01.mockapi.io/aspirantes";
-    /**
-     * Descarga la lista completa de aspirantes de forma limpia
-     */
     static async getTabla() {
         try {
             const respuesta = await fetch(this.apiUrl, {
@@ -25,9 +21,6 @@ export default class Cl_sMockApi {
             return { ok: false, tabla: [] };
         }
     }
-    /**
-     * Guarda un nuevo registro apuntando directo a la colección /aspirantes
-     */
     static async post(registro) {
         try {
             const respuesta = await fetch(this.apiUrl, {
