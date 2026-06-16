@@ -41,7 +41,10 @@ export default class Cl_vTableroDirectiva implements I_vTableroDirectiva {
     aspirantes.forEach((aspirante, index) => {
       const nota100 = aspirante.notaDefinitiva(); 
       const veredicto = aspirante.obtenerVeredicto();
-  
+      
+      // =========================================================================
+      // [GUÍA COMPAÑEROS]: ASIGNACIÓN DE ESTADOS DINÁMICOS SEGÚN LA LEYENDA CO-11
+      // =========================================================================
       let badgeHtml = "";
       
       if (veredicto === "Aprobado") {
@@ -86,24 +89,26 @@ export default class Cl_vTableroDirectiva implements I_vTableroDirectiva {
         <hr class="my-2">
         
         <p class="fw-bold text-uppercase mb-1 text-dark" style="font-size:0.75rem;">Formato N° CO-6: Valoración de Credenciales</p>
-        <ul class="mb-2 text-muted" style="padding-left: 20px;">
+        <ul class="mb-1 text-muted" style="padding-left: 20px;">
           <li>Formato CO-5 (Postgrados): ${asp.puntosForm5()} pts</li>
           <li>Formato CO-5.1 (Pregrados): ${asp.puntosForm51()} pts</li>
           <li>Formato CO-5.2 (Producción Científica): ${asp.puntosForm52()} pts</li>
           <li>Formato CO-5.3 (Méritos y Experiencia): ${asp.puntosForm53()} pts</li>
         </ul>
-        <p class="mb-3 fw-semibold">Ponderación Calculada (10%): ${asp.calificacion10PorcForm7().toFixed(2)} pts</p>
+        <!-- CORRECCIÓN DE TRANSPARENCIA: Mención formal al Formato CO-7 de Credenciales -->
+        <p class="mb-3 fw-semibold text-dark"><i class="bi bi-file-earmark-text text-primary me-1"></i>Formato N° CO-7 (Acta del 10%): ${asp.calificacion10PorcForm7().toFixed(2)} pts</p>
 
         <p class="fw-bold text-uppercase mb-1 text-dark" style="font-size:0.75rem;">Formato N° CO-8: Prueba de Conocimientos</p>
-        <ul class="mb-2 text-muted" style="padding-left: 20px;">
+        <ul class="mb-1 text-muted" style="padding-left: 20px;">
           <li>Nota Examen Escrito (0-20): ${asp.notaExamenEscrito} pts</li>
           <li>Nota Examen Oral / Práctico (0-20): ${asp.notaExamenPractico} pts</li>
         </ul>
-        <p class="mb-3 fw-semibold">Ponderación Calculada (60%): ${asp.calificacion60PorcForm8().toFixed(2)} pts</p>
+        <p class="mb-3 fw-semibold text-dark"><i class="bi bi-file-earmark-text text-primary me-1"></i>Ponderación Calculada (60%): ${asp.calificacion60PorcForm8().toFixed(2)} pts</p>
 
         <p class="fw-bold text-uppercase mb-1 text-dark" style="font-size:0.75rem;">Formato N° CO-10: Matriz de Aptitudes</p>
         <p class="mb-1 text-muted" style="padding-left: 5px;">Puntaje Acumulado Total de Jurados: ${asp.totalPuntosExposicion()} / 180 pts</p>
-        <p class="mb-3 fw-semibold">Ponderación Calculada (30%): ${asp.calificacion30PorcForm9().toFixed(2)} pts</p>
+        <!-- CORRECCIÓN DE TRANSPARENCIA: Mención formal al Formato CO-9 de Aptitudes -->
+        <p class="mb-3 fw-semibold text-dark"><i class="bi bi-file-earmark-text text-primary me-1"></i>Formato N° CO-9 (Acta del 30%): ${asp.calificacion30PorcForm9().toFixed(2)} pts</p>
         
         <hr class="my-2">
         <h6 class="fw-bold text-center text-uppercase bg-dark text-white p-2 mb-0" style="font-size:0.9rem; border-radius:4px;">Nota Final (100%): ${asp.notaDefinitiva().toFixed(2)} pts (${nota20.toFixed(2)} / 20 pts)</h6>
