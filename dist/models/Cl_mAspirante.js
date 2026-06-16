@@ -104,7 +104,7 @@ export default class Cl_mAspirante {
     }
     // VEREDICTO FINAL (llevado a 20pts)
     obtenerVeredicto() {
-        if (this.calificacionForm8() < 15) {
+        if (this.notaExamenEscrito < 15 || this.notaExamenPractico < 15) {
             return "Improbado en Conocimiento";
         }
         const notaEscala20 = (this.notaDefinitiva() / 100) * 20;
@@ -113,9 +113,6 @@ export default class Cl_mAspirante {
         }
         return "Aprobado";
     }
-    // =========================================================================
-    // CORRECCIÓN REQUERIDA POR EL DOCENTE: VALIDACIÓN INTERNA DEL MODELO
-    // =========================================================================
     get datosOk() {
         // Validación de datos básicos obligatorios
         if (this.cedula <= 0) {
